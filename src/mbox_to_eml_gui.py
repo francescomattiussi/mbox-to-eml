@@ -338,7 +338,10 @@ def main():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
+    # Check if running in Docker (simple heuristic: check for /.dockerenv or env var)
+    is_docker = os.path.exists('/.dockerenv') or os.getenv('DOCKER_CONTAINER') == 'true'
+    
+    if len(sys.argv) == 1 and not is_docker:
         create_gui()
     else:
         main()
